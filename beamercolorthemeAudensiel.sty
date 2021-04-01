@@ -1,0 +1,28 @@
+\ProvidesPackageRCS $Header: /cvsroot/latex-beamer/beamer-Audensiel/beamercolorthemeAudensiel.sty,v 1.0 2019/10/29 12:00:00 mnugue Exp $
+
+% Couleur Audensiel
+\definecolor{rougeAudensiel}{RGB}{234, 29, 61}
+\definecolor{grisAudensiel}{RGB}{127, 127, 127}
+\definecolor{bleuAudensiel}{RGB}{75, 130, 195}
+
+\mode<presentation>
+
+\usecolortheme[named=rougeAudensiel]{structure}
+
+% Couleurs blocks
+\setbeamercolor{block title}{use=structure,fg=white,bg=structure.fg}
+\setbeamercolor{block title alerted}{use=alerted text,fg=white,bg=alerted text.fg}
+\setbeamercolor{block title example}{use=example text,fg=white,bg=bleuAudensiel}
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!10!bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!10!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=bleuAudensiel!10!bg}
+
+% Taille texte
+\setbeamerfont{block title}{size=\footnotesize}
+\setbeamerfont{block body}{size=\scriptsize}
+\setbeamerfont{block body alerted}{size=\scriptsize}
+\setbeamerfont{block body example}{size=\scriptsize}
+
+
+\mode
+<all>

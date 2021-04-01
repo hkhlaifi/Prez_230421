@@ -1,0 +1,101 @@
+% Standard packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{textcomp}
+
+% Other packages
+\usepackage{pifont}
+\usepackage{media9}
+\usepackage{animate}
+\usepackage{multirow}
+\usepackage{bm}
+\usepackage{color,colortbl,xcolor}
+\usepackage[notocbib]{apacite}
+\usepackage{csquotes}
+\usepackage{subfig,float,subfloat}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{listings}
+\usepackage{pgfplots}
+\usetikzlibrary{shapes,arrows}
+
+% Tikz packages
+\usepackage{tikz}
+\usetikzlibrary{arrows,calc,decorations.pathreplacing,positioning}
+\usepackage{pgf}
+\usepackage{pgfplots}
+\usetikzlibrary{spy}
+\usetikzlibrary{arrows.meta,
+	calc, chains,
+	quotes,
+	positioning,
+	shapes.geometric}
+% New commands
+
+%%% For Figures
+\newcommand{\includeFig}[2]{\begin{figure}\centering\includegraphics[width=#1\textwidth]{#2}\end{figure}} % includeFig
+\newcommand{\includeFigLeg}[3]{\begin{figure}\begin{center}\includegraphics[width=#1\textwidth]{#2}\\%
+\scriptsize{\textcolor{rougeAudensiel}{#3}}\end{center}\end{figure}} % includeFigLeg
+
+%%% Miscellaneous
+\newcommand{\legend}[2][1-]{\scriptsize{\begin{center}\textcolor{rougeAudensiel}{\onslide<#1>{#2}}\end{center}}}
+\newcommand{\legendtikz}[2][1-]{\scriptsize{\textcolor{rougeAudensiel}{\onslide<#1>{#2}}}}
+\newcommand{\n}{\\[-0.2cm]}
+\newcommand{\ko}{\textcolor{red}{\ding{56}}}
+\newcommand{\ok}{\textcolor{green!50!black}{\ding{52}}}
+  
+% END
+
+%%%%%================================Arezki=========================================
+%%%% debut macro %%%%
+\newenvironment{changemargin}[2]{\begin{list}{}{%
+			\setlength{\topsep}{0pt}%
+			\setlength{\leftmargin}{0pt}%
+			\setlength{\rightmargin}{0pt}%
+			\setlength{\listparindent}{\parindent}%
+			\setlength{\itemindent}{\parindent}%
+			\setlength{\parsep}{0pt plus 1pt}%
+			\addtolength{\leftmargin}{#1}%
+			\addtolength{\rightmargin}{#2}%
+		}\item }{\end{list}}
+%%%% fin macro %%%%
+
+\newcommand\R{\cellcolor{red!30}}
+\newcommand\V{\cellcolor{green!30}}
+\newcommand{\tikzredcircle}[2][red,fill=red]{\tikz[baseline=-0.5ex]\draw[#1,radius=#2] (0,0) circle ;}%
+\newcommand{\tikzgreencircle}[2][green,fill=green]{\tikz[baseline=-0.5ex]\draw[#1,radius=#2] (0,0) circle ;}%
+%%==================================================================================
+
+
+
+
+
+
+
+
+
+
+\tikzstyle{decision} = [diamond, draw, fill=green!30,
+text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt, minimum width = 10em]
+\tikzstyle{block} = [rectangle, draw, fill=orange!30,
+text width=10em, text centered,  minimum height=4em, minimum width = 10em]
+\tikzstyle{blockinit} = [rectangle, draw, fill=red!30,
+text width=5em, text centered, rounded corners=1.5em, minimum height=3em]
+\tikzstyle{blockfin} = [rectangle, draw, fill=red!30,
+text width=5em, text centered, rounded corners=1.5em, minimum height=3em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+minimum height=2em]
+\tikzstyle{entree} = [trapezium, draw, fill=blue!30,trapezium left angle=70, trapezium right angle=110,
+text width=6em, text centered,  minimum height=4em, minimum width = 9em]
+
+
+
+		
+
+
+
+

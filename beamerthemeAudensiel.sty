@@ -1,0 +1,112 @@
+\ProvidesPackageRCS $Header: /cvsroot/latex-beamer/beamer-Audensiel/beamerthemeAudensiel.sty,v 1.0 2019/10/29 12:00:00 mnugue Exp $
+
+% Packages
+\RequirePackage{ifthen}
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{
+family=audensiel,
+prefix=audensiel@
+}
+
+% Options
+\DeclareBoolOption[false]{transparent}
+\DeclareBoolOption[false]{navsymb}
+\DeclareBoolOption[false]{navvert}
+\DeclareStringOption{plansec}[Plan de la présentation]
+\DeclareBoolOption[false]{plansub}
+\DeclareBoolOption[false]{planzero}
+\DeclareDefaultOption{}
+\ProcessKeyvalOptions{audensiel}
+
+\DeclareOptionBeamer{bgnotitle}{\PassOptionsToPackage{bgnotitle}{beamerouterthemeAudensiel}}
+\DeclareOptionBeamer{headsec}{\PassOptionsToPackage{headsec}{beamerouterthemeAudensiel}}
+\DeclareOptionBeamer{headnosub}{\PassOptionsToPackage{headnosub}{beamerouterthemeAudensiel}}
+\DeclareOptionBeamer{headwhite}{\PassOptionsToPackage{headwhite}{beamerouterthemeAudensiel}}
+\DeclareOptionBeamer{headrect}{\PassOptionsToPackage{headrect}{beamerouterthemeAudensiel}}
+\DeclareOptionBeamer{headleftskip}{\PassOptionsToPackage{headleftskip=#1}{beamerouterthemeAudensiel}}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+{
+% Theme
+\usecolortheme{Audensiel}
+\useinnertheme[shadow=true]{rounded}
+\useoutertheme{Audensiel}
+
+% Font
+\usepackage[scaled]{uarial}
+\renewcommand*\familydefault{\sfdefault}
+
+% Transparence
+\ifaudensiel@transparent
+ \setbeamercovered{transparent}
+\fi
+
+% Plan repete avant chaque section/sous-section
+\ifthenelse{\not\equal{\audensiel@plansec}{\empty}}
+{
+\ifaudensiel@plansub
+\AtBeginSection[]{%
+ \begin{frame}<beamer>
+  \frametitle{\audensiel@plansec}
+  \ifaudensiel@planzero
+   \addtocounter{framenumber}{-1}
+  \fi
+  \tableofcontents[currentsection]
+ \end{frame}}%
+ 
+\AtBeginSubsection[]{%
+ \begin{frame}<beamer>
+  \frametitle{\audensiel@plansec}
+  \ifaudensiel@planzero
+   \addtocounter{framenumber}{-1}
+  \fi
+  \tableofcontents[currentsection,currentsubsection]
+ \end{frame}}%
+ 
+\else
+\AtBeginSection[]{%
+ \begin{frame}<beamer>
+  \frametitle{\audensiel@plansec}
+  \ifaudensiel@planzero
+   \addtocounter{framenumber}{-1}
+  \fi
+  \tableofcontents[currentsection]
+  
+ \end{frame}}%
+\fi
+}%
+{}
+
+% Symboles de navigation
+\ifaudensiel@navsymb
+\ifaudensiel@navvert
+\setbeamertemplate{navigation symbols}
+{%
+  \vbox{%
+  \hbox{\insertslidenavigationsymbol}
+  \hbox{\insertframenavigationsymbol}
+  \hbox{\insertsubsectionnavigationsymbol}
+  \hbox{\insertsectionnavigationsymbol}
+  \hbox{\insertdocnavigationsymbol}
+  \hbox{\insertbackfindforwardnavigationsymbol}}%
+}
+\else
+\setbeamertemplate{navigation symbols}{%
+\insertslidenavigationsymbol
+\insertframenavigationsymbol
+\insertsubsectionnavigationsymbol
+\insertsectionnavigationsymbol
+\insertdocnavigationsymbol
+\insertbackfindforwardnavigationsymbol
+}
+\fi
+\else
+\beamertemplatenavigationsymbolsempty
+\fi
+%
+}
+
+
+\mode
+<all>

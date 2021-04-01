@@ -1,0 +1,257 @@
+\ProvidesPackageRCS $Header: /cvsroot/latex-beamer/beamer-Audensiel/beamerouterthemeAudensiel.sty,v 1.0 2019/10/29 12:00:00 mnugue Exp $
+
+% Packages
+\RequirePackage{tikz}
+\RequirePackage{picture}
+\RequirePackage{pgf}
+
+% Options
+\newif\if@title \@titletrue
+\DeclareOption{bgnotitle}{\@titlefalse}
+\newif\if@headsec \@headsecfalse
+\DeclareOption{headsec}{\@headsectrue}
+\newif\if@headnosub \@headnosubfalse
+\DeclareOption{headnosub}{\@headnosubtrue}
+\newif\if@headwhite \@headwhitefalse
+\DeclareOption{headwhite}{\@headwhitetrue}
+\newif\if@headrect \@headrectfalse
+\DeclareOption{headrect}{\@headrecttrue}
+\DeclareOption*{}
+\ProcessOptions
+
+\newdimen\beamer@audensiel@headleftskip
+\beamer@audensiel@headleftskip=0.3cm
+\DeclareOptionBeamer{headleftskip}{\beamer@audensiel@headleftskip=#1}
+\DeclareOptionBeamer*{}
+\ProcessOptionsBeamer
+
+% Images de fond
+\pgfdeclareimage[width=\paperwidth,height=\paperheight,interpolate=true]{audensielTitre}{images/aud_page_garde.jpg}
+\pgfdeclareimage[width=\paperwidth,height=\paperheight,interpolate=true]{audensielFond}{images/aud_page.jpg}
+
+% Titre de la 1ere slide
+\if@title
+\def\mytitlepage{{\usebackgroundtemplate{\pgfuseimage{audensielTitre}}\plainframe{\titlepage}}}
+\else
+\def\mytitlepage{\plainframe{\titlepage}}
+\fi
+
+\mode<presentation>
+
+% Couleur section headline
+\if@headwhite
+\setbeamercolor{section in head/foot}{fg=white}
+\else
+\setbeamercolor{section in head/foot}{fg=white,bg=gray}
+\fi
+\setbeamercolor{title in head/foot}{fg=white}
+\setbeamercolor{frametitle}{fg=white}
+
+\beamer@compresstrue
+
+\usebackgroundtemplate{\pgfuseimage{audensielFond}}
+
+\AtBeginDocument{
+  {
+    \usebeamerfont*{headline}
+    \colorlet{global.bg}{bg}
+    \usebeamercolor{subsection in head/foot}
+    \usebeamercolor{section in head/foot}
+    \usebeamercolor{frametitle}
+    \pgfdeclareverticalshading{beamer@belowframetitle}{\paperwidth}{%
+      color(0)=(global.bg);%
+      color(3pt)=(black!50!global.bg) }
+    \pgfdeclareverticalshading{beamer@bottomshade}{\paperwidth}{%
+      color(0)=(black!50!global.bg);
+      color(3pt)=(global.bg) }
+    \pgfdeclarehorizontalshading{beamer@headlinebg}{7ex}{%
+      color(0)=(structure.fg);%
+      color(0.405\paperwidth)=(structure.fg);%
+      color(\paperwidth)=(rougeAudensiel) }
+    \pgfdeclarehorizontalshading{beamer@frametitlebg}{9ex}{%
+      color(0)=(structure.fg);%
+      color(0.405\paperwidth)=(structure.fg);%
+      color(\paperwidth)=(rougeAudensiel) }
+    \pgfdeclarehorizontalshading{beamer@footlinebg}{5.7mm}{%
+      color(0)=(structure.fg);%
+      color(0.26\paperwidth)=(structure.fg);%
+      color(0.88\paperwidth)=(white);
+      color(\paperwidth)=(white) }
+  }
+}
+
+% Rectangle sections headline
+\if@headrect
+ \newlength\audensiel@sectionboxwidth
+ \newlength\audensiel@sectionboxheight
+ \newbox\audensiel@sectionbox
+ \newbox\audensiel@sectionboxbox
+ \usesectionheadtemplate
+   {\hfill
+     \setbox\audensiel@sectionbox=\hbox{\insertsectionhead}%
+     \audensiel@sectionboxwidth=\wd\audensiel@sectionbox
+     \advance\audensiel@sectionboxwidth by 4pt
+     \setbox\audensiel@sectionbox=\hbox{\pgfinterruptpicture t \endpgfinterruptpicture}%
+     \audensiel@sectionboxheight=\ht\audensiel@sectionbox
+     \advance\audensiel@sectionboxheight by 8pt
+     \begin{tikzpicture}
+       \useasboundingbox (-0.5\audensiel@sectionboxwidth, 4pt) rectangle (0.5\audensiel@sectionboxwidth, \audensiel@sectionboxheight);
+       \draw[rounded corners=3pt, draw=rougeAudensiel,line width=0.2ex, fill=white] (-0.5\audensiel@sectionboxwidth, 4pt) rectangle (0.5\audensiel@sectionboxwidth, \audensiel@sectionboxheight);
+        \draw[anchor=base] (0pt, 6pt) node {\color{rougeAudensiel} \insertsectionhead};
+     \end{tikzpicture}
+   }
+   {\hfill
+     \setbox\audensiel@sectionbox=\hbox{\pgfinterruptpicture\insertsectionhead\endpgfinterruptpicture}%
+     \audensiel@sectionboxwidth=\wd\audensiel@sectionbox
+     \advance\audensiel@sectionboxwidth by 4pt
+     \setbox\audensiel@sectionboxbox=\hbox{\pgfinterruptpicture t \endpgfinterruptpicture}%
+     \audensiel@sectionboxheight=\ht\audensiel@sectionboxbox
+     \advance\audensiel@sectionboxheight by 8pt
+     \begin{tikzpicture}
+       \useasboundingbox (-0.5\audensiel@sectionboxwidth, 4pt) rectangle (0.5\audensiel@sectionboxwidth, \audensiel@sectionboxheight);
+       \if@headwhite
+         \draw[anchor=base] (0pt, 6pt) node {\insertsectionhead};%
+       \else
+         \draw[anchor=base] (0pt, 6pt) node {\color{lightgray} \insertsectionhead};%
+       \fi
+     \end{tikzpicture}
+   }
+\fi
+
+% Headline
+\defbeamertemplate*{headline}{Audensiel theme}
+{%
+  \if@headsec
+  \vspace{1ex}\begin{beamercolorbox}[ignorebg,ht=2.25ex,dp=3.75ex]{section in head/foot}
+    \if@headnosub
+    \insertsectionnavigationhorizontal{\paperwidth}{}{}%
+    \else
+    \insertnavigation{\paperwidth}
+    \fi
+  \end{beamercolorbox}%
+  \else\vskip8pt%
+  \fi\vspace{1ex}
+}%
+
+% Separation des ronds par sous section dans headline
+\def\slideentry#1#2#3#4#5#6{%
+  \ifnum#6=\c@part\ifnum#2>0\ifnum#3>0%
+    \ifbeamer@compress%
+      \advance\beamer@xpos by 1\relax%
+      \ifnum1=#3
+        \advance\beamer@xpos by 1\relax%
+      \fi
+    \else%
+      \beamer@xpos=#3\relax%
+      \beamer@ypos=#2\relax%
+    \fi%
+  \hbox to 0pt{%
+    \beamer@tempdim=-\beamer@vboxoffset%
+    \advance\beamer@tempdim by -\beamer@boxsize%
+    \multiply\beamer@tempdim by \beamer@ypos%
+    \raise\beamer@tempdim\hbox{%
+      \beamer@tempdim=\beamer@boxsize%
+      \multiply\beamer@tempdim by \beamer@xpos%
+      \advance\beamer@tempdim by -1.5\beamer@boxsize%
+      \kern\beamer@tempdim
+      \global\beamer@section@min@dim\beamer@tempdim
+      \hbox{\beamer@link(#4){%
+          \usebeamerfont{mini frame}%
+          \ifnum\c@section=#1%
+            \ifnum\c@subsection=#2%
+              \usebeamercolor[fg]{mini frame}%
+              \ifnum\c@subsectionslide=#3%
+                \usebeamertemplate{mini frame}%
+              \else%
+                \usebeamertemplate{mini frame in current subsection}%
+              \fi%
+            \else%
+              \usebeamercolor{mini frame}%
+              \usebeamertemplate{mini frame in other subsection}%
+            \fi%
+          \else%
+            \usebeamercolor{mini frame}%
+            \usebeamertemplate{mini frame in other subsection}%
+          \fi%
+        }}}\hskip-10cm plus 1fil%
+  }\fi\fi%
+  \else%
+  \fakeslideentry{#1}{#2}{#3}{#4}{#5}{#6}%
+  \fi\ignorespaces
+}
+\setbeamercolor{section in head/foot}{parent=structure,fg=rougeAudensiel}
+\setbeamercolor{mini frame}{fg=rougeAudensiel,bg=rougeAudensiel}
+
+% 1ere slide
+\defbeamertemplate*{frametitle}{Audensiel theme}
+{%
+  \nointerlineskip%
+  \usebeamerfont{headline}%
+  \nointerlineskip%
+  \begin{beamercolorbox}[wd=\paperwidth,leftskip=\beamer@audensiel@headleftskip,rightskip=.3cm plus1fil,vmode]{frametitle}
+    \vspace{-1ex}%
+    \usebeamerfont*{frametitle}\insertframetitle%
+    \strut\par%
+    \usebeamerfont{headline}%
+    \vskip.5ex  
+  \end{beamercolorbox}%
+  \if@headsec\else\vskip10pt\fi
+}
+
+% Footline
+\defbeamertemplate*{footline}{Audensiel theme}%
+{%
+  \begin{beamercolorbox}[wd=\paperwidth, ht=.1\paperheight, dp=0pt]{master footline in head/foot}
+     \begin{beamercolorbox}[wd=0.8\paperwidth, ht=0pt, dp=0pt, leftskip=.35\paperwidth]{title in head/foot}
+         \textcolor{grisAudensiel}{\vspace{2.5mm}\scriptsize{\insertshortinstitute ~- \insertshortdate}}
+%         \hfil \newline
+%         \textcolor{grisAudensiel}{\vspace{2mm}\insertshorttitle}
+     \end{beamercolorbox}%
+     \begin{beamercolorbox}[wd=.1\paperwidth, ht=0pt, dp=0pt, leftskip=0.05\paperwidth]{title in head/foot}
+         \small
+         \textcolor{grisAudensiel}{\vspace{3mm}\insertframenumber/\inserttotalframenumber}
+     \end{beamercolorbox}%
+  \end{beamercolorbox}
+}
+
+% Element de la 1ere slide
+\if@title
+\def\inserttitleindicator{}
+\def\insertauthorindicator{}
+\def\insertinstituteindicator{}
+\def\insertdateindicator{}
+\defbeamertemplate*{title page}{Audensiel theme}
+{
+\vfill
+\begin{flushright}
+\vskip2.5cm
+ \textbf{\usebeamercolor[bleuAudensiel]{title}\usebeamerfont{title}\inserttitle}\par
+ \vskip0.2em
+ \usebeamercolor[grisAudensiel]{subtitle}\usebeamerfont{subtitle}\insertsubtitle
+  \vskip1em\par
+ \ifx\insertauthor\@empty
+ \else
+  \usebeamercolor[grisAudensiel]{author}\usebeamerfont{author}\insertauthor\par
+ \fi
+ \vskip1em\par
+ \ifx\insertinstitute\@empty
+ \else
+  \usebeamercolor[grisAudensiel]{institute}\usebeamerfont{institute}\insertinstitute\par
+ \fi
+ \vskip1em\par
+ \ifx\insertdate\@empty
+ \else
+  \usebeamercolor[grisAudensiel]{palette quaternary}\usebeamerfont{author}\insertdate\par
+ \fi
+\end{flushright}
+\vfill
+}
+\fi
+
+\setbeamerfont{block title}{size=\normalsize,series=\bfseries}
+\setbeamerfont{block title example}{size=\normalsize,series=\bfseries}
+\setbeamerfont{block title alerted}{size=\normalsize,series=\bfseries}
+
+
+\mode
+<all>
